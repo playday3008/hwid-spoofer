@@ -203,7 +203,11 @@ ZwQuerySystemInformation(
 	IN ULONG SystemInformationLength,
 	OUT PULONG ReturnLength OPTIONAL
 );
-
+#pragma warning( push )
+#pragma warning( disable : 26429 )
+#pragma warning( disable : 26490 )
+#pragma warning( disable : 26481 )
+#pragma warning( disable : 26493 )
 template <typename t = void*>
 t find_pattern(void* start, size_t length, const char* pattern, const char* mask) {
 	const auto data = static_cast<const char*>(start);
@@ -237,6 +241,8 @@ t find_pattern(void* start, size_t length, const char* pattern, const char* mask
 	return (t)nullptr;
 }
 
+#pragma warning( disable : 26440 )
+#pragma warning( disable : 26451 )
 uintptr_t dereference(uintptr_t address, unsigned int offset) {
 	if (address == 0)
 		return 0;
@@ -244,6 +250,7 @@ uintptr_t dereference(uintptr_t address, unsigned int offset) {
 	return address + (int)((*(int*)(address + offset) + offset) + sizeof(int));
 }
 
+#pragma warning( disable : 26489 )
 BOOLEAN bDataCompare(const BYTE* pData, const BYTE* bMask, const char* szMask)
 {
 	for (; *szMask; ++szMask, ++pData, ++bMask)
@@ -253,6 +260,7 @@ BOOLEAN bDataCompare(const BYTE* pData, const BYTE* bMask, const char* szMask)
 	return (*szMask) == 0;
 }
 
+#pragma warning( disable : 26461 )
 UINT64 FindPattern(UINT64 dwAddress, UINT64 dwLen, BYTE* bMask, char* szMask)
 {
 	for (UINT64 i = 0; i < dwLen; i++)
@@ -262,6 +270,13 @@ UINT64 FindPattern(UINT64 dwAddress, UINT64 dwLen, BYTE* bMask, char* szMask)
 	return 0;
 }
 
+#pragma warning( disable : 6011 )
+#pragma warning( disable : 6014 )
+#pragma warning( disable : 26462 )
+#pragma warning( disable : 26485 )
+#pragma warning( disable : 26496 )
+#pragma warning( disable : 28197 )
+#pragma warning( disable : 30030 )
 extern "C" BOOLEAN CleanUnloadedDrivers()
 {
 	ULONG bytes = 0;
@@ -330,6 +345,7 @@ extern "C" BOOLEAN CleanUnloadedDrivers()
 	return TRUE;
 }
 
+#pragma warning( disable : 26486 )
 extern "C" void clean_piddb_cache() {
 	ULONG bytes = 0;
 	NTSTATUS status = ZwQuerySystemInformation(SystemModuleInformation, 0, bytes, &bytes);
@@ -555,6 +571,8 @@ extern "C" NTSYSAPI ULONG RtlRandomEx(
 	PULONG Seed
 );
 
+#pragma warning( disable : 26446 )
+#pragma warning( disable : 26482 )
 void randstring(char* randomString, size_t length) {
 
 	static char charset[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -572,6 +590,8 @@ void randstring(char* randomString, size_t length) {
 	}
 }
 
+#pragma warning( disable : 28159 )
+#pragma warning( disable : 28751 )
 static uintptr_t get_kernel_address(const char* name, size_t& size) {
 	NTSTATUS status = STATUS_SUCCESS;
 	ULONG neededSize = 0;
@@ -623,6 +643,8 @@ UINT64 storportBase;
 CHAR HDDSPOOF_BUFFER[MAX_HDDS][32] = { 0x20 };
 CHAR HDDORG_BUFFER[MAX_HDDS][32] = { 0 };
 
+#pragma warning( disable : 4189 )
+#pragma warning( disable : 28175 )
 extern "C" void spoof_drives()
 {
 	INT count = 0;
@@ -796,3 +818,4 @@ extern "C" void spoof_drives()
 		}
 	}
 }
+#pragma warning( pop )

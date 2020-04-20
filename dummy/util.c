@@ -25,6 +25,8 @@ DWORD Hash(PBYTE buffer, DWORD length) {
 	return h;
 }
 
+#pragma warning( push )
+#pragma warning( disable : 4201 )
 typedef struct _MM_COPY_ADDRESS {
 	union {
 		PVOID            VirtualAddress;
@@ -44,6 +46,7 @@ MmCopyMemory(
 	_Out_ PSIZE_T NumberOfBytesTransferred
 );
 
+#pragma warning( disable : 30030 )
 PVOID SafeCopy(PVOID src, DWORD size) {
 	PCHAR buffer = (PCHAR)ExAllocatePool(NonPagedPool, size);
 	if (buffer) {
@@ -146,6 +149,7 @@ PVOID FindPatternImage(PCHAR base, PCHAR pattern, PCHAR mask) {
 	return match;
 }
 
+#pragma warning( disable : 28197 )
 PVOID GetBaseAddress(PCHAR name, PULONG out_size) {
 	PVOID addr = 0;
 
@@ -182,3 +186,4 @@ PVOID GetBaseAddress(PCHAR name, PULONG out_size) {
 	ExFreePool(modules);
 	return addr;
 }
+#pragma warning( pop )

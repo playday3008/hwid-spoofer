@@ -8,6 +8,8 @@ struct {
 
 PDRIVER_DISPATCH PartControlOriginal = 0, NsiControlOriginal = 0, GpuControlOriginal = 0;
 
+#pragma warning( push )
+#pragma warning( disable : 28159 )
 /**** NIC ****/
 NTSTATUS NICIoc(PDEVICE_OBJECT device, PIRP irp, PVOID context) {
 	if (context) {
@@ -26,6 +28,7 @@ NTSTATUS NICIoc(PDEVICE_OBJECT device, PIRP irp, PVOID context) {
 	return STATUS_SUCCESS;
 }
 
+#pragma warning( disable : 28023 )
 NTSTATUS NICControl(PDEVICE_OBJECT device, PIRP irp) {
 	for (DWORD i = 0; i < NICs.Length; ++i) {
 		PNIC_DRIVER driver = &NICs.Drivers[i];
@@ -54,6 +57,7 @@ NTSTATUS NICControl(PDEVICE_OBJECT device, PIRP irp) {
 	return STATUS_SUCCESS;
 }
 
+#pragma warning( disable : 28175 )
 NTSTATUS NsiControl(PDEVICE_OBJECT device, PIRP irp) {
 	PIO_STACK_LOCATION ioc = IoGetCurrentIrpStackLocation(irp);
 	switch (ioc->Parameters.DeviceIoControl.IoControlCode) {
@@ -73,6 +77,8 @@ NTSTATUS NsiControl(PDEVICE_OBJECT device, PIRP irp) {
 	return NsiControlOriginal(device, irp);
 }
 
+#pragma warning( disable : 28719 )
+#pragma warning( disable : 6066 )
 VOID SpoofNIC() {
 	SwapControl(RTL_CONSTANT_STRING(L"\\Driver\\nsiproxy"), NsiControl, NsiControlOriginal);
 
@@ -235,6 +241,7 @@ extern void spoof_drives();
 extern void clean_piddb_cache();
 extern BOOLEAN CleanUnloadedDrivers();
 
+#pragma warning( disable : 28101 )
 NTSTATUS DriverEntry(PDRIVER_OBJECT driver, PUNICODE_STRING registry_path) {
 	UNREFERENCED_PARAMETER(registry_path);
 	driver->DriverUnload = DriverUnload;
@@ -259,3 +266,4 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT driver, PUNICODE_STRING registry_path) {
 
 	return STATUS_SUCCESS;
 }
+#pragma warning( pop )
