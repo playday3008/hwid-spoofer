@@ -17,4 +17,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: HWID Spoofer
-        path: dummy
+        path: dummy/output/x64/Release/dummy
