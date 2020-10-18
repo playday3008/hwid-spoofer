@@ -9,8 +9,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: Setup MSBuild.exe
-      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
     - name: MSBuild
       working-directory: dummy
       run: msbuild dummy.vcxproj /p:Configuration=Release /p:Platform=x64 /p:VisualStudioVersion=16.0 /v:m
